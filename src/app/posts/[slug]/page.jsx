@@ -19,16 +19,16 @@ const SinglePage = async ({params}) => {
 
     const {slug} = params
     const data = await getData(slug)
-  
+
     return (
         <div className=''>
             <div className=''>
-                <Image src={data?.img} width={200} height={200} className='w-full h-[30vh] rounded-md object-cover' />
+                <Image src={data?.img} alt='' width={200} height={200} className='w-full h-[30vh] rounded-md object-cover' />
             </div> 
             <div className='flex h-fit '>
                 <div className={`text-sm h-fit pb-7 mt-10 mr-10 shadow-2xl px-8 w-[90%] max-lg:w-full max-lg:mr-0`}>
                     <div className='flex my-7 gap-5 font-serif items-center  max-sm:text-xs max-sm:gap-3 max-sm:text-center max-sm:justify-between'>
-                        <Image src={data?.user.image} width={50} height={50} className='rounded-full w-14 h-14 object-cover'/>
+                        <Image src={data?.user.image} alt='' width={50} height={50} className='rounded-full w-14 h-14 object-cover'/>
                         <p>by : {data?.user.name}</p>
                         <hr className={`w-5 max-sm:hidden`}/>
                         <div className={`${data?.cat.color} w-[15%] h-7 flex justify-center items-center text-gray-800 rounded-sm max-sm:w-fit max-sm:p-1 capitalize`}>
@@ -49,7 +49,6 @@ const SinglePage = async ({params}) => {
                 <div className=''>
                     <Menu/>
                 </div>
-                
             </div>
         </div>
     );

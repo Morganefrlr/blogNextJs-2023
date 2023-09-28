@@ -8,6 +8,9 @@ import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.bubble.css'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from '@/utils/firebase';
+import { categories } from '@/data.jsx';
+import Image from 'next/image';
+
 
 const storage = getStorage(app);
 
@@ -23,7 +26,7 @@ const WritePage = () => {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState("")
     const [title, setTitle] = useState("")
-
+    const [category, setCategory] = useState("")
 
     useEffect(()=>{
         const upload = () =>{
@@ -78,14 +81,25 @@ const WritePage = () => {
         const res = await fetch('http://localhost:3000/api/posts',{
             method: "POST",
             body:JSON.stringify({
-                title, desc:value, img:media, slug:slugify(title), catSlug:'style'
+                title, desc:value, img:media, slug:slugify(title), catSlug:category || 'style'
             })
         })
-        console.log(res)
+        if (res.status === 200) {
+            const data = await res.json();
+            router.push(`http://localhost:3000/posts/${data.slug}`);
+          }
     } 
+
     return (
         <div>
             <input type="text" placeholder='Title' className="p-10 text-6xl font-serif border-none outline-none bg-transparent w-full " onChange={e=>setTitle(e.target.value)}/>
+            <div className='w-full flex justify-between h-10 my-6 mx-4'>
+                {categories && categories.map(item =>
+                    <div key={item.id} className={`h-full ${item.color} ${category === item.title ? "brightness-50" : ""} w-32 text-gray-800 flex justify-center items-center font-semibold uppercase text-sm rounded-md cursor-pointer `} onClick={() => setCategory(item.title)}>
+                        <p>{item.title}</p>
+                    </div>
+                )}
+            </div>
             <div className="flex flex-col gap-5 h-[700px] relative">
                 <button onClick={() => setOpen(!open)} className="w-10 h-10 border-[1px] text-3xl flex justify-center items-center rounded-full border-yellow-500 text-yellow-500 ml-4"><PiPlusLight /></button>
                 {open && 
@@ -100,6 +114,9 @@ const WritePage = () => {
                         <button className={`w-10 h-10 border-[1px] text-3xl flex justify-center items-center rounded-full border-emerald-500 text-emerald-500 cursor-pointer`}><PiVideoThin/></button>
                     </div>
                 }
+                {file && 
+                    <Image src={URL.createObjectURL(file)} width={100} height={100} alt="" className='w-10 h-10 object-cover rounded-sm ml-4'/>
+                    }
                 
                 <ReactQuill theme="bubble" value={value} onChange={setValue} placeholder="Tell your story...." className="w-full"/>
             </div>

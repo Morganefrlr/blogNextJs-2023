@@ -8,6 +8,7 @@ import React, { useContext } from 'react';
 const Card = ({key, item}) => {
 
     const {theme} = useContext(ThemeContext)
+
     return (
         <div className='flex flex-col w-full justify-between h-[600px] relative my-10' key={key}>
             <div className=''>
@@ -25,7 +26,7 @@ const Card = ({key, item}) => {
                     
                 </div>
                 <h1 className="text-xl font-bold my-5 max-sm:text-lg">{item.title}</h1>
-                <p className="text-start text-sm max-sm:text-xs">{item.desc.substring(0,10)}</p>
+                <div className="text-start text-sm max-sm:text-xs" dangerouslySetInnerHTML={{ __html: item?.desc.substring(0,60) }}/>
                 <hr className={`w-[90%] my-7 mx-auto`}/>
                 <div className='w-full flex justify-center items-center'>
                     <Link href={`/posts/${item.slug}`} className="uppercase text-sm font-semibold cursor-pointer">Read More</Link>
