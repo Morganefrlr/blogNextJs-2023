@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.dark{
+  background-color:rgb(24 24 27) ;
+  color:rgb(243 244 246);
+  border-color: rgb(243 244 246);
+}
+
+.light{
+  background-color: white;
+  color:rgb(31 41 55);
+  border-color: rgb(31 41 55);
+
+}
+.ql-container{
+  font-size: 28px !important;
+  font-weight: 300;
+
+}
+.quill > .ql-container > .ql-editor.ql-blank::before{
+  color:rgb(171, 175, 183);
+}
